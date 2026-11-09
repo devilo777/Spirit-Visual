@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Spirit Visuals | Professional GFX Artist & Thumbnail Designer</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+
+</head>
+<body id="home">
+
+  <canvas id="particle-canvas"></canvas>
+
+  <nav class="navbar glass-pill">
+    <a href="#home" class="brand-container">
+      <div class="nav-logo-circle">
+        <img src="assets/images/logo.png" alt="Spirit Logo">
+      </div>
+      <span class="logo-text">SPIRIT VISUALS</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#works">Works</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#feedback">Feedback</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    
+    <!-- Hero Section -->  
+    <section class="hero">
+      <div class="hero-tagline-badge">Elite GFX & Thumbnail Architect</div>
+      <h1>Elevate Your Content With <span>Cinematic Visuals</span></h1>
+      <p>Crafting high-CTR YouTube thumbnails, immersive esports banners, and elite channel identities engineered to hook viewers instantly.</p>
+      <a href="#works" class="btn-primary">Explore Showreel <i class="fa-solid fa-arrow-down"></i></a>
+    </section>
+
+    <!-- Works Showreel Carousel Section -->
+    <section id="works">
+      <div class="section-header">
+        <h2>Work Showreel</h2>
+      </div>
+      <div class="showreel-container">
+        <div id="showreel-track" class="showreel-track">
+          <!-- Dynamically injected via app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Professional About Section -->
+    <section id="about" class="glass-box about-section">
+      <div class="about-text">
+        <h2>Crafting Visuals That Command Attention</h2>
+        <p>I am <span class="highlight-purple">Spirit</span>, a professional GFX artist and brand designer based in <span class="highlight-purple">Odisha, India</span>, with over <span class="highlight-purple">4 years of specialized experience</span> in digital media design. Over the years, I've had the privilege of engineering high-CTR thumbnails and branding assets for <span class="highlight-purple">top-tier creators and major YouTubers</span>.</p>
+        <p>Every asset is built with micro-focused attention to color grading, lighting dynamics, and typography hierarchy to ensure maximum audience retention and click-through performance.</p>
+        
+        <div class="software-stack">
+          <span class="software-badge"><i class="fa-solid fa-pen-nib"></i> Ibis Paint X</span>
+          <span class="software-badge"><i class="fa-solid fa-paintbrush"></i> Adobe Photoshop</span>
+          <span class="software-badge"><i class="fa-solid fa-vector-square"></i> Adobe Illustrator</span>
+        </div>
+      </div>
+      <div class="about-stats">
+        <div class="stat-box">
+          <h3>4+</h3>
+          <span>Years Experience</span>
+        </div>
+        <div class="stat-box">
+          <h3>250+</h3>
+          <span>Thumbnails Crafted</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feedback Section with Add Feedback Button -->
+    <section id="feedback">
+      <div class="section-header">
+        <h2>Client Feedback</h2>
+        <button class="btn-primary" onclick="openFeedbackModal()" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;"><i class="fa-solid fa-plus"></i> Add Feedback</button>
+      </div>
+      <div id="feedback-grid" class="feedback-grid">
+        <!-- Dynamically injected via app.js -->
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <div class="section-header">
+        <h2>Contact Information</h2>
+      </div>
+      <div id="contact-container" class="contact-grid">
+        <!-- Dynamically injected via app.js -->
+      </div>
+    </section>
+
+  </div> <!-- End of Container -->
+
+  <!-- Lightbox Modal -->
+  <div id="lightbox-modal" class="lightbox-modal" onclick="closeLightbox()">
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <button class="lightbox-close" onclick="closeLightbox()"><i class="fa-solid fa-xmark"></i></button>
+      <img id="lightbox-img" src="" alt="Enlarged Work">
+    </div>
+  </div>
+
+  <!-- Public Feedback Submission Modal -->
+  <div id="feedback-modal" class="lightbox-modal" onclick="closeFeedbackModal()">
+    <div class="glass-box" style="padding: 2.5rem; max-width: 450px; width: 90%; position: relative;" onclick="event.stopPropagation()">
+      <button class="lightbox-close" onclick="closeFeedbackModal()"><i class="fa-solid fa-xmark"></i></button>
+      <h3 style="margin-bottom: 1.5rem; font-size: 1.4rem;">Leave Your Feedback</h3>
+      <form id="public-feedback-form">
+        <div class="form-group" style="margin-bottom: 1rem; text-align: left;">
+          <label style="display:block; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.3rem;">Your Name / Organization</label>
+          <input type="text" id="pub-client" class="form-control" required placeholder="e.g. John Doe">
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem; text-align: left;">
+          <label style="display:block; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.3rem;">Your Logo / Avatar URL (Optional)</label>
+          <input type="url" id="pub-logo" class="form-control" placeholder="https://images.unsplash.com/...">
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem; text-align: left;">
+          <label style="display:block; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.3rem;">Your Role / Channel</label>
+          <input type="text" id="pub-role" class="form-control" required placeholder="e.g. Content Creator">
+        </div>
+        <div class="form-group" style="margin-bottom: 1.5rem; text-align: left;">
+          <label style="display:block; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.3rem;">Your Review / Feedback</label>
+          <textarea id="pub-text" class="form-control" rows="3" required placeholder="Amazing work by Spirit..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">Submit Feedback</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Firebase Realtime Database SDK Scripts -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, get, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCABvHpVfPKvAaBu9h8EjaF8AeNaW7j9xI",
+      authDomain: "spirit-visuals.firebaseapp.com",
+      databaseURL: "https://spirit-visuals-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "spirit-visuals",
+      storageBucket: "spirit-visuals.firebasestorage.app",
+      messagingSenderId: "641919633753",
+      appId: "1:641919633753:web:b002750e13ced4dc0c2448",
+      measurementId: "G-Q0FZB4KV04"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    // Regional database instance linked properly:
+    const db = getDatabase(app, "https://spirit-visuals-default-rtdb.asia-southeast1.firebasedatabase.app");
+    
+    window.db = db;
+    window.dbRef = ref;
+    window.dbGet = get;
+    window.dbSet = set;
+    window.dbOnValue = onValue;
+
+    if (window.initPortfolioApp) {
+      window.initPortfolioApp();
+    }
+  </script>
+
+  <!-- Corrected script tag -->
+  <script src="assets/js/app.js"></script>
+
+  <!-- Copyright Footer -->
+  <footer style="text-align: center; padding: 1.5rem 0 0.5rem 0; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border-glass); margin-top: 2rem;">
+    &copy; 2026 Spirit Visuals. All rights reserved.
+  </footer>
+
+</body>
+</html>
