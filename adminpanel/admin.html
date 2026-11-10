@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard | Spirit Visuals</title>
+  <link rel="icon" type="image/png" href="../assets/images/logo.png">
   <link rel="stylesheet" href="admin.css">
-  <link rel="icon" type="image/png" href="assets/images/logo.png">
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* Custom Toast Notification Style */
+    /* Circular Favicon & Toast Style */
+    link[rel*="icon"] { border-radius: 50%; }
     #spirit-toast {
       position: fixed;
       bottom: 30px;
@@ -62,8 +62,8 @@
 
   <nav class="navbar glass-pill">
     <a href="../index.html" class="brand-container">
-      <div class="nav-logo-circle">
-        <img src="../assets/images/logo.png" alt="Logo">
+      <div class="nav-logo-circle" style="border-radius: 50%; overflow: hidden; width: 40px; height: 40px;">
+        <img src="../assets/images/logo.png" alt="Logo" style="width: 100%; height: 100%; object-fit: cover;">
       </div>
       <span class="logo-text">SPIRIT ADMIN</span>
     </a>
@@ -129,10 +129,23 @@
           <label>Client Name / Organization</label>
           <input type="text" id="fb-client" class="form-control" required placeholder="e.g., Major YouTuber / Team Velocity">
         </div>
+        
         <div class="form-group">
-          <label>Client Logo URL (Circular Avatar / Logo - Optional)</label>
+          <label>Client Logo URL (Optional)</label>
           <input type="url" id="fb-logo" class="form-control" placeholder="https://images.unsplash.com/...">
         </div>
+
+        <div class="form-group">
+          <label>Or Upload Logo from Device (Circular Avatar)</label>
+          <input type="file" id="fb-logo-file" class="form-control" accept="image/*">
+        </div>
+        <input type="hidden" id="fb-logo-base64">
+
+        <div id="fb-preview-box" style="margin-bottom: 1.2rem; display:none;">
+          <label style="color: var(--accent-purple);">Logo Preview:</label>
+          <img id="fb-preview-img" src="" alt="Preview" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%; display: block; margin-top: 0.3rem; border: 1px solid var(--border-glass);">
+        </div>
+
         <div class="form-group">
           <label>Client Role</label>
           <input type="text" id="fb-role" class="form-control" required placeholder="e.g., 2M+ Subscriber Creator">
@@ -208,9 +221,7 @@
       if (toast) {
         toast.innerText = message;
         toast.classList.add('show');
-        setTimeout(() => {
-          toast.classList.remove('show');
-        }, 2500);
+        setTimeout(() => { toast.classList.remove('show'); }, 2500);
       }
     }
 
@@ -232,19 +243,15 @@
             localStorage.setItem('spirit_admin_auth', 'true');
             if (loginOverlay) loginOverlay.style.display = 'none';
           } else {
-            showToast('Invalid credentials! Use your number "9439404764".');
+            showToast('Invalid credentials!');
           }
         });
       }
 
       window.initAdminApp = initAdmin;
-      if (window.db) {
-        initAdmin();
-      } else {
-        setTimeout(initAdmin, 600);
-      }
+      if (window.db) { initAdmin(); } else { setTimeout(initAdmin, 600); }
 
-      // Image Converter Logic
+      // Work Thumbnail Converter
       const fileInput = document.getElementById('work-file-input');
       const hiddenImageInput = document.getElementById('work-image');
       const previewBox = document.getElementById('image-preview-box');
@@ -259,6 +266,27 @@
               hiddenImageInput.value = e.target.result;
               previewThumb.src = e.target.result;
               previewBox.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+
+      // Feedback Logo Converter
+      const fbLogoFileInput = document.getElementById('fb-logo-file');
+      const fbLogoBase64Input = document.getElementById('fb-logo-base64');
+      const fbPreviewBox = document.getElementById('fb-preview-box');
+      const fbPreviewImg = document.getElementById('fb-preview-img');
+
+      if (fbLogoFileInput) {
+        fbLogoFileInput.addEventListener('change', function(event) {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              fbLogoBase64Input.value = e.target.result;
+              fbPreviewImg.src = e.target.result;
+              fbPreviewBox.style.display = 'block';
             };
             reader.readAsDataURL(file);
           }
@@ -309,12 +337,15 @@
         e.preventDefault();
         let feedback = await getFeedbackData();
 
-        const logoInput = document.getElementById('fb-logo').value.trim();
+        const urlInput = document.getElementById('fb-logo').value.trim();
+        const base64Input = fbLogoBase64Input.value;
         const defaultLogo = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop";
+
+        const finalLogo = base64Input !== "" ? base64Input : (urlInput !== "" ? urlInput : defaultLogo);
 
         const newFeedback = {
           client: document.getElementById('fb-client').value,
-          logo: logoInput !== "" ? logoInput : defaultLogo,
+          logo: finalLogo,
           role: document.getElementById('fb-role').value,
           text: document.getElementById('fb-text').value
         };
@@ -326,6 +357,8 @@
         localStorage.setItem('spirit_feedback', JSON.stringify(feedback));
 
         document.getElementById('feedback-form').reset();
+        fbLogoBase64Input.value = '';
+        fbPreviewBox.style.display = 'none';
         renderAdminLists(await getWorksData(), feedback);
         showToast('Client feedback added instantly to cloud!');
       });
@@ -334,9 +367,7 @@
     async function getWorksData() {
       if (window.db) {
         const snap = await window.dbGet(window.dbRef(window.db, 'spirit_works'));
-        if (snap.exists() && Array.isArray(snap.val())) {
-          return snap.val();
-        }
+        if (snap.exists() && Array.isArray(snap.val())) return snap.val();
       }
       return JSON.parse(localStorage.getItem('spirit_works')) || defaultWorks;
     }
@@ -344,9 +375,7 @@
     async function getFeedbackData() {
       if (window.db) {
         const snap = await window.dbGet(window.dbRef(window.db, 'spirit_feedback'));
-        if (snap.exists() && Array.isArray(snap.val())) {
-          return snap.val();
-        }
+        if (snap.exists() && Array.isArray(snap.val())) return snap.val();
       }
       return JSON.parse(localStorage.getItem('spirit_feedback')) || defaultFeedback;
     }
@@ -360,10 +389,7 @@
           document.getElementById('admin-email').value = contact.email || '';
           document.getElementById('admin-discord').value = contact.discord || '';
         }
-
-        const works = await getWorksData();
-        const feedback = await getFeedbackData();
-        renderAdminLists(works, feedback);
+        renderAdminLists(await getWorksData(), await getFeedbackData());
       } else {
         const contact = JSON.parse(localStorage.getItem('spirit_contact')) || defaultContact;
         document.getElementById('admin-whatsapp').value = contact.whatsapp;
@@ -398,7 +424,6 @@
       }
     }
 
-    // Custom Dark Theme Confirm Modal Logic
     function showCustomConfirm(message) {
       return new Promise((resolve) => {
         const modal = document.getElementById('custom-confirm-modal');
@@ -418,7 +443,6 @@
           modal.style.display = 'none';
           resolve(true);
         });
-
         document.getElementById('confirm-no').addEventListener('click', () => {
           modal.style.display = 'none';
           resolve(false);
@@ -431,9 +455,7 @@
       if (confirmed) {
         let works = await getWorksData();
         works.splice(index, 1);
-        if (window.db) {
-          await window.dbSet(window.dbRef(window.db, 'spirit_works'), works);
-        }
+        if (window.db) { await window.dbSet(window.dbRef(window.db, 'spirit_works'), works); }
         localStorage.setItem('spirit_works', JSON.stringify(works));
         renderAdminLists(works, await getFeedbackData());
         showToast('Project deleted successfully!');
@@ -445,9 +467,7 @@
       if (confirmed) {
         let feedback = await getFeedbackData();
         feedback.splice(index, 1);
-        if (window.db) {
-          await window.dbSet(window.dbRef(window.db, 'spirit_feedback'), feedback);
-        }
+        if (window.db) { await window.dbSet(window.dbRef(window.db, 'spirit_feedback'), feedback); }
         localStorage.setItem('spirit_feedback', JSON.stringify(feedback));
         renderAdminLists(await getWorksData(), feedback);
         showToast('Feedback deleted successfully!');
