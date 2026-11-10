@@ -2,134 +2,135 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spirit Visuals | High-Performance GFX Portfolio</title>
-  <link rel="icon" type="image/png" href="assets/images/logo.png">
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Spirit Visuals | Professional GFX Artist & Thumbnail Designer</title>
+  <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
   <style>
-    /* Fallback Core Theme Styles in case external style.css fails to load */
-    :root {
-      --bg-obsidian: #030206;
-      --accent-purple: #a855f7;
-      --text-main: #ffffff;
-      --text-muted: #9ca3af;
-      --border-glass: rgba(168, 85, 247, 0.2);
-    }
-    body {
-      background-color: var(--bg-obsidian) !important;
-      color: var(--text-main) !important;
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-    }
+    /* Circular Favicon Helper */
     link[rel*="icon"] { border-radius: 50%; }
-    #particle-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-      pointer-events: none;
-    }
   </style>
 </head>
-<body style="background: #030206; color: #fff;">
+<body id="home">
 
   <canvas id="particle-canvas"></canvas>
 
-  <!-- Navigation Bar -->
-  <nav class="navbar glass-pill" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; margin: 1rem auto; max-width: 1200px; background: rgba(3,2,6,0.8); backdrop-filter: blur(12px); border: 1px solid rgba(168,85,247,0.2); border-radius: 50px;">
-    <a href="#home" class="brand-container" style="display: flex; align-items: center; gap: 0.8rem; text-decoration: none; color: #fff;">
-      <div class="nav-logo-circle" style="border-radius: 50%; overflow: hidden; width: 40px; height: 40px; border: 1px solid var(--accent-purple);">
-        <img src="assets/images/logo.png" alt="Spirit Visuals Logo" style="width: 100%; height: 100%; object-fit: cover;">
+  <nav class="navbar glass-pill">
+    <a href="#home" class="brand-container">
+      <div class="nav-logo-circle" style="border-radius: 50%; overflow: hidden;">
+        <img src="assets/images/logo.png" alt="Spirit Logo" style="width: 100%; height: 100%; object-fit: cover;">
       </div>
-      <span class="logo-text" style="font-weight: 700; letter-spacing: 1px;">SPIRIT VISUALS</span>
+      <span class="logo-text">SPIRIT VISUALS</span>
     </a>
-    <ul class="nav-links" style="display: flex; gap: 1.5rem; list-style: none; margin: 0; padding: 0; align-items: center;">
-      <li><a href="#works" style="color: #ccc; text-decoration: none; font-size: 0.9rem;">Works</a></li>
-      <li><a href="#feedback" style="color: #ccc; text-decoration: none; font-size: 0.9rem;">Testimonials</a></li>
-      <li><a href="#contact" style="color: #ccc; text-decoration: none; font-size: 0.9rem;">Contact</a></li>
-      <li><a href="admin/admin.html" class="admin-link-btn" style="color: var(--accent-purple); text-decoration: none; font-size: 0.9rem; border: 1px solid rgba(168,85,247,0.4); padding: 0.4rem 1rem; border-radius: 20px;"><i class="fa-solid fa-lock"></i> Admin</a></li>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#works">Works</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#feedback">Feedback</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 
-  <!-- Hero Section -->
-  <header id="home" class="hero-section" style="text-align: center; padding: 5rem 1rem; max-width: 800px; margin: 0 auto;">
-    <div class="glass-box hero-card" style="background: rgba(3,2,6,0.6); backdrop-filter: blur(16px); border: 1px solid rgba(168,85,247,0.25); border-radius: 24px; padding: 3rem 2rem; box-shadow: 0 0 40px rgba(168,85,247,0.15);">
-      <h1 class="hero-title" style="font-size: 2.8rem; font-weight: 800; margin-bottom: 1rem; line-height: 1.2;">ELITE GFX & <span style="color: var(--accent-purple);">THUMBNAIL STUDIO</span></h1>
-      <p class="hero-subtitle" style="color: #9ca3af; font-size: 1.05rem; margin-bottom: 2rem;">Crafting high-CTR masterclass thumbnails, esports overlays, and brand assets for top-tier creators.</p>
-      <div class="hero-buttons" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-        <a href="#works" class="btn-primary" style="background: var(--accent-purple); color: #fff; padding: 0.8rem 1.8rem; border-radius: 30px; text-decoration: none; font-weight: 600; box-shadow: 0 0 20px rgba(168,85,247,0.4);">Explore Showreel</a>
-        <button onclick="openFeedbackModal()" class="btn-secondary" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.15); padding: 0.8rem 1.8rem; border-radius: 30px; cursor: pointer; font-weight: 600;">Leave Feedback</button>
+  <div class="container">
+    
+    <!-- Hero Section -->  
+    <section class="hero">
+      <div class="hero-tagline-badge">Elite GFX & Thumbnail Architect</div>
+      <h1>Elevate Your Content With <span>Cinematic Visuals</span></h1>
+      <p>Crafting high-CTR YouTube thumbnails, immersive esports banners, and elite channel identities engineered to hook viewers instantly.</p>
+      <a href="#works" class="btn-primary">Explore Showreel <i class="fa-solid fa-arrow-down"></i></a>
+    </section>
+
+    <!-- Works Showreel Carousel Section -->
+    <section id="works">
+      <div class="section-header">
+        <h2>Work Showreel</h2>
       </div>
-    </div>
-  </header>
-
-  <!-- Works Showreel Section -->
-  <section id="works" class="section-container" style="max-width: 1200px; margin: 4rem auto; padding: 0 1.5rem;">
-    <h2 class="section-heading" style="font-size: 1.8rem; margin-bottom: 2rem; border-left: 4px solid var(--accent-purple); padding-left: 1rem;">Featured Showreel</h2>
-    <div class="showreel-wrapper" style="overflow: hidden; width: 100%;">
-      <div id="showreel-track" class="showreel-track" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
-        <!-- Dynamic Works Loaded via app.js -->
+      <div class="showreel-container">
+        <div id="showreel-track" class="showreel-track">
+          <!-- Dynamically injected via app.js -->
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Testimonials / Feedback Section -->
-  <section id="feedback" class="section-container" style="max-width: 1200px; margin: 4rem auto; padding: 0 1.5rem;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-      <h2 class="section-heading" style="font-size: 1.8rem; margin-bottom: 0; border-left: 4px solid var(--accent-purple); padding-left: 1rem;">Creator Testimonials</h2>
-      <button onclick="openFeedbackModal()" class="btn-primary" style="background: var(--accent-purple); color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 20px; cursor: pointer; font-weight: 600;">Add Your Review</button>
-    </div>
-    <div id="feedback-grid" class="feedback-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
-      <!-- Dynamic Feedback Loaded via app.js -->
-    </div>
-  </section>
+    <!-- Professional About Section -->
+    <section id="about" class="glass-box about-section">
+      <div class="about-text">
+        <h2>Crafting Visuals That Command Attention</h2>
+        <p>I am <span class="highlight-purple">Spirit</span>, a professional GFX artist and brand designer based in <span class="highlight-purple">Odisha, India</span>, with over <span class="highlight-purple">4 years of specialized experience</span> in digital media design. Over the years, I've had the privilege of engineering high-CTR thumbnails and branding assets for <span class="highlight-purple">top-tier creators and major YouTubers</span>.</p>
+        <p>Every asset is built with micro-focused attention to color grading, lighting dynamics, and typography hierarchy to ensure maximum audience retention and click-through performance.</p>
+        
+        <div class="software-stack">
+          <span class="software-badge"><i class="fa-solid fa-pen-nib"></i> Ibis Paint X</span>
+          <span class="software-badge"><i class="fa-solid fa-paintbrush"></i> Adobe Photoshop</span>
+          <span class="software-badge"><i class="fa-solid fa-vector-square"></i> Adobe Illustrator</span>
+        </div>
+      </div>
+      <div class="about-stats">
+        <div class="stat-box">
+          <h3>4+</h3>
+          <span>Years Experience</span>
+        </div>
+        <div class="stat-box">
+          <h3>250+</h3>
+          <span>Thumbnails Crafted</span>
+        </div>
+      </div>
+    </section>
 
-  <!-- Contact Section -->
-  <section id="contact" class="section-container" style="max-width: 1200px; margin: 4rem auto; padding: 0 1.5rem;">
-    <h2 class="section-heading" style="font-size: 1.8rem; margin-bottom: 2rem; border-left: 4px solid var(--accent-purple); padding-left: 1rem;">Get In Touch</h2>
-    <div id="contact-container" class="contact-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-      <!-- Dynamic Contact Loaded via app.js -->
-    </div>
-  </section>
+    <!-- Feedback Section with Add Feedback Button -->
+    <section id="feedback">
+      <div class="section-header">
+        <h2>Client Feedback</h2>
+        <button class="btn-primary" onclick="openFeedbackModal()" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;"><i class="fa-solid fa-plus"></i> Add Feedback</button>
+      </div>
+      <div id="feedback-grid" class="feedback-grid">
+        <!-- Dynamically injected via app.js -->
+      </div>
+    </section>
 
-  <!-- Footer -->
-  <footer class="footer-container" style="text-align: center; padding: 3rem 1rem; color: #6b7280; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 4rem;">
-    <p>&copy; 2026 Spirit Visuals. All rights reserved.</p>
-  </footer>
+    <!-- Contact Section -->
+    <section id="contact">
+      <div class="section-header">
+        <h2>Contact Information</h2>
+      </div>
+      <div id="contact-container" class="contact-grid">
+        <!-- Dynamically injected via app.js -->
+      </div>
+    </section>
 
-  <!-- Lightbox Modal for Works Preview -->
-  <div id="lightbox-modal" class="lightbox-modal" onclick="closeLightbox()" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center;">
-    <div class="lightbox-content" onclick="event.stopPropagation()" style="position: relative; max-width: 90%; max-height: 90%;">
-      <button class="lightbox-close" onclick="closeLightbox()" style="position: absolute; top: -40px; right: 0; background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer;">&times;</button>
-      <img id="lightbox-img" src="" alt="Enlarged Work" style="max-width: 100%; max-height: 85vh; border-radius: 8px;">
+  </div> <!-- End of Container -->
+
+  <!-- Lightbox Modal -->
+  <div id="lightbox-modal" class="lightbox-modal" onclick="closeLightbox()">
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <button class="lightbox-close" onclick="closeLightbox()"><i class="fa-solid fa-xmark"></i></button>
+      <img id="lightbox-img" src="" alt="Enlarged Work">
     </div>
   </div>
 
-  <!-- Public Feedback Modal with Device Image Upload -->
-  <div id="feedback-modal" class="lightbox-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 9999; align-items: center; justify-content: center;">
-    <div class="glass-box" style="padding: 2.5rem; max-width: 450px; width: 90%; background: rgba(3,2,6,0.98); border: 1px solid rgba(168,85,247,0.4); border-radius: 20px; position: relative; box-shadow: 0 0 30px rgba(168,85,247,0.3);">
-      <button onclick="closeFeedbackModal()" style="position: absolute; top: 15px; right: 20px; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer;">&times;</button>
-      <h3 style="margin-bottom: 1.5rem; font-size: 1.3rem; color: #fff;">Publish Your Testimonial</h3>
+  <!-- Public Feedback Submission Modal -->
+  <div id="feedback-modal" class="lightbox-modal" onclick="closeFeedbackModal()">
+    <div class="glass-box" style="padding: 2.5rem; max-width: 450px; width: 90%; position: relative;" onclick="event.stopPropagation()">
+      <button class="lightbox-close" onclick="closeFeedbackModal()"><i class="fa-solid fa-xmark"></i></button>
+      <h3 style="margin-bottom: 1.5rem; font-size: 1.4rem;">Leave Your Feedback</h3>
       
       <form id="public-feedback-form">
         <div class="form-group" style="margin-bottom: 1rem; text-align: left;">
           <label style="display:block; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.3rem;">Your Name / Organization</label>
-          <input type="text" id="pub-client" class="form-control" required placeholder="e.g. Gamer Saif" style="width: 100%; padding: 0.7rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; box-sizing: border-box;">
+          <input type="text" id="pub-client" class="form-control" required placeholder="e.g. John Doe">
         </div>
 
         <div class="form-group" style="margin-bottom: 1rem; text-align: left;">
-          <label style="display:block; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.3rem;">Logo URL (Optional)</label>
-          <input type="url" id="pub-logo" class="form-control" placeholder="https://images.unsplash.com/..." style="width: 100%; padding: 0.7rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; box-sizing: border-box;">
+          <label style="display:block; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.3rem;">Your Logo / Avatar URL (Optional)</label>
+          <input type="url" id="pub-logo" class="form-control" placeholder="https://images.unsplash.com/...">
         </div>
 
+        <!-- Naya Device Upload Option -->
         <div class="form-group" style="margin-bottom: 1rem; text-align: left;">
           <label style="display:block; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.3rem;">Or Upload Logo from Device (Circular Avatar)</label>
-          <input type="file" id="pub-logo-file" class="form-control" accept="image/*" style="width: 100%; padding: 0.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; box-sizing: border-box;">
+          <input type="file" id="pub-logo-file" class="form-control" accept="image/*">
         </div>
 
         <div id="pub-preview-box" style="margin-bottom: 1rem; display:none; text-align: left;">
@@ -139,15 +140,15 @@
 
         <div class="form-group" style="margin-bottom: 1rem; text-align: left;">
           <label style="display:block; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.3rem;">Your Role / Channel</label>
-          <input type="text" id="pub-role" class="form-control" required placeholder="e.g. 1M+ Sub Creator" style="width: 100%; padding: 0.7rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; box-sizing: border-box;">
+          <input type="text" id="pub-role" class="form-control" required placeholder="e.g. Content Creator">
         </div>
 
         <div class="form-group" style="margin-bottom: 1.5rem; text-align: left;">
           <label style="display:block; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.3rem;">Your Review / Feedback</label>
-          <textarea id="pub-text" class="form-control" rows="3" required placeholder="Spirit delivered absolute masterclass work..." style="width: 100%; padding: 0.7rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; box-sizing: border-box;"></textarea>
+          <textarea id="pub-text" class="form-control" rows="3" required placeholder="Amazing work by Spirit..."></textarea>
         </div>
 
-        <button type="submit" class="btn-primary" style="width: 100%; padding: 0.8rem; background: var(--accent-purple); color: #fff; border: none; border-radius: 30px; font-weight: 600; cursor: pointer;">Submit Feedback</button>
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">Submit Feedback</button>
       </form>
     </div>
   </div>
@@ -182,7 +183,13 @@
     }
   </script>
 
-  <!-- Main JavaScript File -->
+  <!-- Corrected script tag -->
   <script src="assets/js/app.js"></script>
+
+  <!-- Copyright Footer -->
+  <footer style="text-align: center; padding: 1.5rem 0 0.5rem 0; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border-glass); margin-top: 2rem;">
+    &copy; 2026 Spirit Visuals. All rights reserved.
+  </footer>
+
 </body>
 </html>
