@@ -134,29 +134,52 @@ const defaultFeedback = [
 
 // --- INITIALIZE & REAL-TIME SYNC ---
 function initApp() {
+  // 1. Pehle instant localStorage se render kar do taaki 1 sec bhi blank na dikhe
+  const localWorks = JSON.parse(localStorage.getItem('spirit_works'));
+  if (localWorks && Array.isArray(localWorks)) {
+    renderWorks(localWorks);
+  } else {
+    renderWorks(defaultWorks);
+  }
+
+  const localContact = JSON.parse(localStorage.getItem('spirit_contact'));
+  if (localContact) renderContact(localContact); else renderContact(defaultContact);
+
+  const localFeedback = JSON.parse(localStorage.getItem('spirit_feedback'));
+  if (localFeedback && Array.isArray(localFeedback)) {
+    renderFeedback(localFeedback);
+  } else {
+    renderFeedback(defaultFeedback);
+  }
+
+  // 2. Phir background mein Firebase real-time listener chalu rakho
   if (window.db) {
-    // Listen to real-time changes from Firebase Database
     window.dbOnValue(window.dbRef(window.db, 'spirit_works'), (snapshot) => {
-      const works = (snapshot.exists() && Array.isArray(snapshot.val())) ? snapshot.val() : defaultWorks;
-      renderWorks(works);
+      const works = (snapshot.exists() && Array.isArray(snapshot.val())) ? snapshot.val() : null;
+      if (works) {
+        localStorage.setItem('spirit_works', JSON.stringify(works));
+        renderWorks(works);
+      }
     });
 
     window.dbOnValue(window.dbRef(window.db, 'spirit_contact'), (snapshot) => {
-      const contact = (snapshot.exists() && snapshot.val()) ? snapshot.val() : defaultContact;
-      renderContact(contact);
+      const contact = (snapshot.exists() && snapshot.val()) ? snapshot.val() : null;
+      if (contact) {
+        localStorage.setItem('spirit_contact', JSON.stringify(contact));
+        renderContact(contact);
+      }
     });
 
     window.dbOnValue(window.dbRef(window.db, 'spirit_feedback'), (snapshot) => {
-      const feedback = (snapshot.exists() && Array.isArray(snapshot.val())) ? snapshot.val() : defaultFeedback;
-      renderFeedback(feedback);
+      const feedback = (snapshot.exists() && Array.isArray(snapshot.val())) ? snapshot.val() : null;
+      if (feedback) {
+        localStorage.setItem('spirit_feedback', JSON.stringify(feedback));
+        renderFeedback(feedback);
+      }
     });
-  } else {
-    // Fallback to LocalStorage if Firebase is offline
-    renderWorks(defaultWorks);
-    renderContact(defaultContact);
-    renderFeedback(defaultFeedback);
   }
 }
+
 
 // --- RENDER FUNCTIONS ---
 function renderWorks(works) {
