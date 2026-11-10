@@ -65,19 +65,45 @@ document.addEventListener('DOMContentLoaded', () => {
   window.initPortfolioApp = initApp;
   if (window.db) {
     initApp();
+  } else {
+    initApp();
   }
 
-  // Public Feedback Form Listener (Alert Removed)
+  // Public Feedback Form Image Converter & Listener
   const pubForm = document.getElementById('public-feedback-form');
+  const pubLogoFileInput = document.getElementById('pub-logo-file');
+  const pubLogoUrlInput = document.getElementById('pub-logo');
+  const pubPreviewBox = document.getElementById('pub-preview-box');
+  const pubPreviewImg = document.getElementById('pub-preview-img');
+  let selectedPubLogoBase64 = "";
+
+  if (pubLogoFileInput) {
+    pubLogoFileInput.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          selectedPubLogoBase64 = e.target.result;
+          if (pubPreviewImg) pubPreviewImg.src = e.target.result;
+          if (pubPreviewBox) pubPreviewBox.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
   if (pubForm) {
     pubForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const logoInput = document.getElementById('pub-logo').value.trim();
+      
+      const urlInputVal = pubLogoUrlInput ? pubLogoUrlInput.value.trim() : "";
       const defaultLogo = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop";
+      
+      const finalLogo = selectedPubLogoBase64 !== "" ? selectedPubLogoBase64 : (urlInputVal !== "" ? urlInputVal : defaultLogo);
 
       const newFeedback = {
         client: document.getElementById('pub-client').value,
-        logo: logoInput !== "" ? logoInput : defaultLogo,
+        logo: finalLogo,
         role: document.getElementById('pub-role').value,
         text: document.getElementById('pub-text').value
       };
@@ -98,8 +124,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       pubForm.reset();
+      selectedPubLogoBase64 = "";
+      if (pubPreviewBox) pubPreviewBox.style.display = 'none';
       closeFeedbackModal();
-      // Alert removed completely for smooth user experience
     });
   }
 });
@@ -132,27 +159,19 @@ const defaultFeedback = [
   }
 ];
 
-// --- INITIALIZE & REAL-TIME SYNC ---
+// --- INITIALIZE & INSTANT LOCAL SYNC ---
 function initApp() {
-  // 1. Pehle instant localStorage se render kar do taaki 1 sec bhi blank na dikhe
+  // 1. Instant local render (0-second delay)
   const localWorks = JSON.parse(localStorage.getItem('spirit_works'));
-  if (localWorks && Array.isArray(localWorks)) {
-    renderWorks(localWorks);
-  } else {
-    renderWorks(defaultWorks);
-  }
+  renderWorks(localWorks && Array.isArray(localWorks) ? localWorks : defaultWorks);
 
   const localContact = JSON.parse(localStorage.getItem('spirit_contact'));
-  if (localContact) renderContact(localContact); else renderContact(defaultContact);
+  renderContact(localContact || defaultContact);
 
   const localFeedback = JSON.parse(localStorage.getItem('spirit_feedback'));
-  if (localFeedback && Array.isArray(localFeedback)) {
-    renderFeedback(localFeedback);
-  } else {
-    renderFeedback(defaultFeedback);
-  }
+  renderFeedback(localFeedback && Array.isArray(localFeedback) ? localFeedback : defaultFeedback);
 
-  // 2. Phir background mein Firebase real-time listener chalu rakho
+  // 2. Background Firebase Real-Time Sync
   if (window.db) {
     window.dbOnValue(window.dbRef(window.db, 'spirit_works'), (snapshot) => {
       const works = (snapshot.exists() && Array.isArray(snapshot.val())) ? snapshot.val() : null;
@@ -179,7 +198,6 @@ function initApp() {
     });
   }
 }
-
 
 // --- RENDER FUNCTIONS ---
 function renderWorks(works) {
