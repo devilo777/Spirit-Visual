@@ -2,133 +2,127 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Spirit Visuals | Professional GFX Artist & Thumbnail Designer</title>
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spirit Visuals | High-Performance GFX Portfolio</title>
   <link rel="icon" type="image/png" href="assets/images/logo.png">
-
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Circular Favicon Helper */
+    link[rel*="icon"] { border-radius: 50%; }
+  </style>
 </head>
-<body id="home">
+<body>
 
   <canvas id="particle-canvas"></canvas>
 
+  <!-- Navigation Bar -->
   <nav class="navbar glass-pill">
     <a href="#home" class="brand-container">
-      <div class="nav-logo-circle">
-        <img src="assets/images/logo.png" alt="Spirit Logo">
+      <div class="nav-logo-circle" style="border-radius: 50%; overflow: hidden; width: 40px; height: 40px;">
+        <img src="assets/images/logo.png" alt="Spirit Visuals Logo" style="width: 100%; height: 100%; object-fit: cover;">
       </div>
       <span class="logo-text">SPIRIT VISUALS</span>
     </a>
     <ul class="nav-links">
-      <li><a href="#home">Home</a></li>
       <li><a href="#works">Works</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#feedback">Feedback</a></li>
+      <li><a href="#feedback">Testimonials</a></li>
       <li><a href="#contact">Contact</a></li>
+      <li><a href="admin/admin.html" class="admin-link-btn"><i class="fa-solid fa-lock"></i> Admin</a></li>
     </ul>
   </nav>
 
-  <div class="container">
-    
-    <!-- Hero Section -->  
-    <section class="hero">
-      <div class="hero-tagline-badge">Elite GFX & Thumbnail Architect</div>
-      <h1>Elevate Your Content With <span>Cinematic Visuals</span></h1>
-      <p>Crafting high-CTR YouTube thumbnails, immersive esports banners, and elite channel identities engineered to hook viewers instantly.</p>
-      <a href="#works" class="btn-primary">Explore Showreel <i class="fa-solid fa-arrow-down"></i></a>
-    </section>
+  <!-- Hero Section -->
+  <header id="home" class="hero-section">
+    <div class="glass-box hero-card">
+      <h1 class="hero-title">ELITE GFX & <span style="color: var(--accent-purple);">THUMBNAIL STUDIO</span></h1>
+      <p class="hero-subtitle">Crafting high-CTR masterclass thumbnails, esports overlays, and brand assets for top-tier creators.</p>
+      <div class="hero-buttons">
+        <a href="#works" class="btn-primary">Explore Showreel</a>
+        <button onclick="openFeedbackModal()" class="btn-secondary">Leave Feedback</button>
+      </div>
+    </div>
+  </header>
 
-    <!-- Works Showreel Carousel Section -->
-    <section id="works">
-      <div class="section-header">
-        <h2>Work Showreel</h2>
+  <!-- Works Showreel Section -->
+  <section id="works" class="section-container">
+    <h2 class="section-heading">Featured Showreel</h2>
+    <div class="showreel-wrapper">
+      <div id="showreel-track" class="showreel-track">
+        <!-- Dynamic Works Loaded via app.js -->
       </div>
-      <div class="showreel-container">
-        <div id="showreel-track" class="showreel-track">
-          <!-- Dynamically injected via app.js -->
-        </div>
-      </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Professional About Section -->
-    <section id="about" class="glass-box about-section">
-      <div class="about-text">
-        <h2>Crafting Visuals That Command Attention</h2>
-        <p>I am <span class="highlight-purple">Spirit</span>, a professional GFX artist and brand designer based in <span class="highlight-purple">Odisha, India</span>, with over <span class="highlight-purple">4 years of specialized experience</span> in digital media design. Over the years, I've had the privilege of engineering high-CTR thumbnails and branding assets for <span class="highlight-purple">top-tier creators and major YouTubers</span>.</p>
-        <p>Every asset is built with micro-focused attention to color grading, lighting dynamics, and typography hierarchy to ensure maximum audience retention and click-through performance.</p>
-        
-        <div class="software-stack">
-          <span class="software-badge"><i class="fa-solid fa-pen-nib"></i> Ibis Paint X</span>
-          <span class="software-badge"><i class="fa-solid fa-paintbrush"></i> Adobe Photoshop</span>
-          <span class="software-badge"><i class="fa-solid fa-vector-square"></i> Adobe Illustrator</span>
-        </div>
-      </div>
-      <div class="about-stats">
-        <div class="stat-box">
-          <h3>4+</h3>
-          <span>Years Experience</span>
-        </div>
-        <div class="stat-box">
-          <h3>250+</h3>
-          <span>Thumbnails Crafted</span>
-        </div>
-      </div>
-    </section>
+  <!-- Testimonials / Feedback Section -->
+  <section id="feedback" class="section-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+      <h2 class="section-heading" style="margin-bottom: 0;">Creator Testimonials</h2>
+      <button onclick="openFeedbackModal()" class="btn-primary" style="font-size: 0.85rem; padding: 0.6rem 1.2rem;">Add Your Review</button>
+    </div>
+    <div id="feedback-grid" class="feedback-grid">
+      <!-- Dynamic Feedback Loaded via app.js -->
+    </div>
+  </section>
 
-    <!-- Feedback Section with Add Feedback Button -->
-    <section id="feedback">
-      <div class="section-header">
-        <h2>Client Feedback</h2>
-        <button class="btn-primary" onclick="openFeedbackModal()" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;"><i class="fa-solid fa-plus"></i> Add Feedback</button>
-      </div>
-      <div id="feedback-grid" class="feedback-grid">
-        <!-- Dynamically injected via app.js -->
-      </div>
-    </section>
+  <!-- Contact Section -->
+  <section id="contact" class="section-container">
+    <h2 class="section-heading">Get In Touch</h2>
+    <div id="contact-container" class="contact-grid">
+      <!-- Dynamic Contact Loaded via app.js -->
+    </div>
+  </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-      <div class="section-header">
-        <h2>Contact Information</h2>
-      </div>
-      <div id="contact-container" class="contact-grid">
-        <!-- Dynamically injected via app.js -->
-      </div>
-    </section>
+  <!-- Footer -->
+  <footer class="footer-container">
+    <p>&copy; 2026 Spirit Visuals. All rights reserved.</p>
+  </footer>
 
-  </div> <!-- End of Container -->
-
-  <!-- Lightbox Modal -->
+  <!-- Lightbox Modal for Works Preview -->
   <div id="lightbox-modal" class="lightbox-modal" onclick="closeLightbox()">
     <div class="lightbox-content" onclick="event.stopPropagation()">
-      <button class="lightbox-close" onclick="closeLightbox()"><i class="fa-solid fa-xmark"></i></button>
+      <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
       <img id="lightbox-img" src="" alt="Enlarged Work">
     </div>
   </div>
 
-  <!-- Public Feedback Submission Modal -->
-  <div id="feedback-modal" class="lightbox-modal" onclick="closeFeedbackModal()">
-    <div class="glass-box" style="padding: 2.5rem; max-width: 450px; width: 90%; position: relative;" onclick="event.stopPropagation()">
-      <button class="lightbox-close" onclick="closeFeedbackModal()"><i class="fa-solid fa-xmark"></i></button>
-      <h3 style="margin-bottom: 1.5rem; font-size: 1.4rem;">Leave Your Feedback</h3>
+  <!-- Public Feedback Modal with Device Image Upload -->
+  <div id="feedback-modal" class="lightbox-modal">
+    <div class="glass-box" style="padding: 2.5rem; max-width: 450px; width: 90%; background: rgba(3,2,6,0.95); border: 1px solid rgba(168,85,247,0.3); position: relative;">
+      <button onclick="closeFeedbackModal()" style="position: absolute; top: 15px; right: 20px; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      <h3 style="margin-bottom: 1.5rem; font-size: 1.3rem; color: #fff;">Publish Your Testimonial</h3>
+      
       <form id="public-feedback-form">
         <div class="form-group" style="margin-bottom: 1rem; text-align: left;">
           <label style="display:block; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.3rem;">Your Name / Organization</label>
-          <input type="text" id="pub-client" class="form-control" required placeholder="e.g. John Doe">
+          <input type="text" id="pub-client" class="form-control" required placeholder="e.g. Gamer Saif">
         </div>
+
         <div class="form-group" style="margin-bottom: 1rem; text-align: left;">
-          <label style="display:block; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.3rem;">Your Logo / Avatar URL (Optional)</label>
+          <label style="display:block; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.3rem;">Logo URL (Optional)</label>
           <input type="url" id="pub-logo" class="form-control" placeholder="https://images.unsplash.com/...">
         </div>
+
+        <div class="form-group" style="margin-bottom: 1rem; text-align: left;">
+          <label style="display:block; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.3rem;">Or Upload Logo from Device (Circular Avatar)</label>
+          <input type="file" id="pub-logo-file" class="form-control" accept="image/*">
+        </div>
+
+        <div id="pub-preview-box" style="margin-bottom: 1rem; display:none; text-align: left;">
+          <label style="font-size:0.78rem; color:var(--accent-purple);">Logo Preview:</label>
+          <img id="pub-preview-img" src="" alt="Preview" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%; display: block; margin-top: 0.3rem; border: 1px solid var(--border-glass);">
+        </div>
+
         <div class="form-group" style="margin-bottom: 1rem; text-align: left;">
           <label style="display:block; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.3rem;">Your Role / Channel</label>
-          <input type="text" id="pub-role" class="form-control" required placeholder="e.g. Content Creator">
+          <input type="text" id="pub-role" class="form-control" required placeholder="e.g. 1M+ Sub Creator">
         </div>
+
         <div class="form-group" style="margin-bottom: 1.5rem; text-align: left;">
           <label style="display:block; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.3rem;">Your Review / Feedback</label>
-          <textarea id="pub-text" class="form-control" rows="3" required placeholder="Amazing work by Spirit..."></textarea>
+          <textarea id="pub-text" class="form-control" rows="3" required placeholder="Spirit delivered absolute masterclass work..."></textarea>
         </div>
+
         <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">Submit Feedback</button>
       </form>
     </div>
@@ -151,7 +145,6 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    // Regional database instance linked properly:
     const db = getDatabase(app, "https://spirit-visuals-default-rtdb.asia-southeast1.firebasedatabase.app");
     
     window.db = db;
@@ -165,13 +158,8 @@
     }
   </script>
 
-  <!-- Corrected script tag -->
+  <!-- Main JavaScript File -->
   <script src="assets/js/app.js"></script>
-
-  <!-- Copyright Footer -->
-  <footer style="text-align: center; padding: 1.5rem 0 0.5rem 0; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border-glass); margin-top: 2rem;">
-    &copy; 2026 Spirit Visuals. All rights reserved.
-  </footer>
-
 </body>
 </html>
+
