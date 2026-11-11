@@ -95,7 +95,7 @@
       </form>
     </div>
 
-    <!-- Manage Works -->
+    <!-- Manage Works (GitHub Path Based) -->
     <div class="glass-box admin-section">
       <h3>Add 16:9 Thumbnail (Showreel)</h3>
       <form id="work-form">
@@ -103,18 +103,16 @@
           <label>Thumbnail / Project Title</label>
           <input type="text" id="work-title" class="form-control" required placeholder="e.g., Valorant Tournament Thumbnail">
         </div>
-        <div class="form-group">
-          <label>Select Image from Device (Instant Cloud Upload)</label>
-          <input type="file" id="work-file-input" class="form-control" accept="image/*">
-        </div>
-        <input type="hidden" id="work-image">
         
-        <div id="image-preview-box" style="margin-bottom: 1.2rem; display:none;">
-          <label style="color: var(--accent-purple);">Image Ready for Upload:</label>
-          <img id="preview-thumb" src="" alt="Preview" style="width: 100%; max-height: 150px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-glass);">
+        <div class="form-group">
+          <label>Image Filename (Inside assets/images/works/)</label>
+          <div style="display: flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 8px; padding: 0.4rem 0.8rem;">
+            <span style="color: var(--text-muted); font-size: 0.85rem; white-space: nowrap;">assets/images/works/</span>
+            <input type="text" id="work-filename" class="form-control" required placeholder="thumb1.jpg" style="border: none; background: transparent; padding: 0.3rem 0;">
+          </div>
         </div>
 
-        <button type="submit" id="work-submit-btn" class="btn-admin">Add Thumbnail Instantly</button>
+        <button type="submit" id="work-submit-btn" class="btn-admin">Add Thumbnail</button>
       </form>
 
       <h3 style="margin-top: 2.5rem; font-size: 1.1rem; border-top: 1px solid var(--border-glass); padding-top: 1.5rem;">Manage Existing Works</h3>
@@ -136,17 +134,6 @@
         </div>
 
         <div class="form-group">
-          <label>Or Upload Logo from Device (Circular Avatar)</label>
-          <input type="file" id="fb-logo-file" class="form-control" accept="image/*">
-        </div>
-        <input type="hidden" id="fb-logo-base64">
-
-        <div id="fb-preview-box" style="margin-bottom: 1.2rem; display:none;">
-          <label style="color: var(--accent-purple);">Logo Preview:</label>
-          <img id="fb-preview-img" src="" alt="Preview" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%; display: block; margin-top: 0.3rem; border: 1px solid var(--border-glass);">
-        </div>
-
-        <div class="form-group">
           <label>Client Role</label>
           <input type="text" id="fb-role" class="form-control" required placeholder="e.g., 2M+ Subscriber Creator">
         </div>
@@ -154,7 +141,7 @@
           <label>Testimonial Feedback</label>
           <textarea id="fb-text" class="form-control" rows="3" required placeholder="Spirit delivered masterclass thumbnails..."></textarea>
         </div>
-        <button type="submit" id="fb-submit-btn" class="btn-admin">Add Feedback Item Instantly</button>
+        <button type="submit" id="fb-submit-btn" class="btn-admin">Add Feedback Item</button>
       </form>
 
       <h3 style="margin-top: 2.5rem; font-size: 1.1rem; border-top: 1px solid var(--border-glass); padding-top: 1.5rem;">Manage Existing Feedback</h3>
@@ -205,7 +192,6 @@
   </script>
 
   <script>
-    // Default data set to empty arrays so no default items show up
     const defaultWorks = [];
     const defaultContact = { whatsapp: "+919876543210", email: "spiritvisuals@gmail.com", discord: "spiritgfx#0001" };
     const defaultFeedback = [];
@@ -217,44 +203,6 @@
         toast.classList.add('show');
         setTimeout(() => { toast.classList.remove('show'); }, 2500);
       }
-    }
-
-    // Smart Image Compressor for Mobile
-    function compressAndConvertImage(file) {
-      return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const img = new Image();
-          img.onload = function() {
-            const canvas = document.createElement('canvas');
-            let width = img.width;
-            let height = img.height;
-            const MAX_WIDTH = 1280;
-            const MAX_HEIGHT = 720;
-
-            if (width > height) {
-              if (width > MAX_WIDTH) {
-                height *= MAX_WIDTH / width;
-                width = MAX_WIDTH;
-              }
-            } else {
-              if (height > MAX_HEIGHT) {
-                width *= MAX_HEIGHT / height;
-                height = MAX_HEIGHT;
-              }
-            }
-
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.75);
-            resolve(compressedDataUrl);
-          };
-          img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      });
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -283,46 +231,6 @@
       window.initAdminApp = initAdmin;
       if (window.db) { initAdmin(); } else { setTimeout(initAdmin, 600); }
 
-      let selectedWorkFile = null;
-      const fileInput = document.getElementById('work-file-input');
-      const previewBox = document.getElementById('image-preview-box');
-      const previewThumb = document.getElementById('preview-thumb');
-
-      if (fileInput) {
-        fileInput.addEventListener('change', function(event) {
-          const file = event.target.files[0];
-          if (file) {
-            selectedWorkFile = file;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-              previewThumb.src = e.target.result;
-              previewBox.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-          }
-        });
-      }
-
-      let selectedFbFile = null;
-      const fbLogoFileInput = document.getElementById('fb-logo-file');
-      const fbPreviewBox = document.getElementById('fb-preview-box');
-      const fbPreviewImg = document.getElementById('fb-preview-img');
-
-      if (fbLogoFileInput) {
-        fbLogoFileInput.addEventListener('change', function(event) {
-          const file = event.target.files[0];
-          if (file) {
-            selectedFbFile = file;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-              fbPreviewImg.src = e.target.result;
-              fbPreviewBox.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-          }
-        });
-      }
-
       // Contact Form Submit
       document.getElementById('contact-form').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -339,22 +247,17 @@
         showToast('Contact information updated successfully!');
       });
 
-      // Work Form Submit (Optimized)
+      // Work Form Submit (GitHub Path Based)
       document.getElementById('work-form').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const submitBtn = document.getElementById('work-submit-btn');
-        submitBtn.innerText = "Processing Image...";
-        submitBtn.disabled = true;
+        
+        const title = document.getElementById('work-title').value.trim();
+        const filename = document.getElementById('work-filename').value.trim();
+        const imageUrl = `assets/images/works/${filename}`;
 
         try {
-          let imageUrl = "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1920&auto=format&fit=crop";
-          
-          if (selectedWorkFile) {
-            imageUrl = await compressAndConvertImage(selectedWorkFile);
-          }
-
           let works = await getWorksData();
-          const newWork = { title: document.getElementById('work-title').value, image: imageUrl };
+          const newWork = { title: title, image: imageUrl };
           works.unshift(newWork);
 
           localStorage.setItem('spirit_works', JSON.stringify(works));
@@ -363,34 +266,22 @@
           }
 
           document.getElementById('work-form').reset();
-          previewBox.style.display = 'none';
-          selectedWorkFile = null;
           renderAdminLists(works, await getFeedbackData());
-          showToast('Thumbnail added instantly & synced!');
+          showToast('Thumbnail added via path successfully!');
         } catch (err) {
-          console.error("Upload error:", err);
+          console.error("Error:", err);
           showToast('Failed to add thumbnail.');
-        } finally {
-          submitBtn.innerText = "Add Thumbnail Instantly";
-          submitBtn.disabled = false;
         }
       });
 
-      // Feedback Form Submit (Optimized)
+      // Feedback Form Submit
       document.getElementById('feedback-form').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const submitBtn = document.getElementById('fb-submit-btn');
-        submitBtn.innerText = "Processing Logo...";
-        submitBtn.disabled = true;
 
         try {
           const urlInput = document.getElementById('fb-logo').value.trim();
           const defaultLogo = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop";
-          
           let logoUrl = urlInput !== "" ? urlInput : defaultLogo;
-          if (selectedFbFile) {
-            logoUrl = await compressAndConvertImage(selectedFbFile);
-          }
 
           let feedback = await getFeedbackData();
           const newFeedback = {
@@ -407,16 +298,11 @@
           }
 
           document.getElementById('feedback-form').reset();
-          fbPreviewBox.style.display = 'none';
-          selectedFbFile = null;
           renderAdminLists(await getWorksData(), feedback);
-          showToast('Feedback added instantly & synced!');
+          showToast('Feedback added successfully!');
         } catch (err) {
           console.error("Feedback error:", err);
           showToast('Failed to add feedback.');
-        } finally {
-          submitBtn.innerText = "Add Feedback Item Instantly";
-          submitBtn.disabled = false;
         }
       });
     });
@@ -464,7 +350,8 @@
         );
       }
     }
-function renderAdminLists(works, feedback) {
+
+    function renderAdminLists(works, feedback) {
       const worksList = document.getElementById('admin-works-list');
       if (worksList) {
         if (!works || works.length === 0) {
@@ -472,7 +359,7 @@ function renderAdminLists(works, feedback) {
         } else {
           worksList.innerHTML = works.map((w, index) => `
             <div class="admin-item-row" style="display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0; border-bottom: 1px solid rgba(168,85,247,0.15);">
-              <span style="font-size: 0.9rem;"><strong>${w.title}</strong></span>
+              <span style="font-size: 0.9rem;"><strong>${w.title}</strong><br><small style="color:var(--text-muted);">${w.image}</small></span>
               <button class="btn-danger" onclick="deleteWork(${index})" style="background:rgba(239,68,68,0.2); border:1px solid #ef4444; color:#ef4444; padding:0.3rem 0.7rem; border-radius:6px; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
             </div>
           `).join('');
