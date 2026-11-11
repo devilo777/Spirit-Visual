@@ -1,9 +1,3 @@
-// --- DIRECT GITHUB PATH THUMBNAILS (ULTRA-FAST & ZERO LAG) ---
-const portfolioWorks = [
-  // Yahan apne GitHub wale thumbnails ke path add karte jayen:
-  // { title: "Thumbnail 1", image: "assets/images/works/thumb1.jpg" },
-];
-
 // --- OPTIMIZED SMOOTH PARTICLE BACKGROUND (LAG-FREE) ---
 document.addEventListener('DOMContentLoaded', () => {
   const canvases = document.querySelectorAll('#particle-canvas');
@@ -75,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initApp();
   }
 
-  // Public Feedback Form Image Converter & Listener
+  // Public Feedback Form Listener
   const pubForm = document.getElementById('public-feedback-form');
   const pubLogoFileInput = document.getElementById('pub-logo-file');
   const pubLogoUrlInput = document.getElementById('pub-logo');
@@ -104,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const urlInputVal = pubLogoUrlInput ? pubLogoUrlInput.value.trim() : "";
       const defaultLogo = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop";
-      
       const finalLogo = selectedPubLogoBase64 !== "" ? selectedPubLogoBase64 : (urlInputVal !== "" ? urlInputVal : defaultLogo);
 
       const newFeedback = {
@@ -147,18 +140,24 @@ const defaultFeedback = [];
 
 // --- INITIALIZE & INSTANT LOCAL SYNC ---
 function initApp() {
-  // 1. Render Works directly from GitHub Array (Instant 0-delay load)
-  renderWorks(portfolioWorks);
+  // 1. Instant local render for works
+  const localWorks = JSON.parse(localStorage.getItem('spirit_works'));
+  renderWorks(localWorks && Array.isArray(localWorks) ? localWorks : []);
 
-  // 2. Instant local render for contact & feedback
   const localContact = JSON.parse(localStorage.getItem('spirit_contact'));
   renderContact(localContact || defaultContact);
 
   const localFeedback = JSON.parse(localStorage.getItem('spirit_feedback'));
   renderFeedback(localFeedback && Array.isArray(localFeedback) ? localFeedback : defaultFeedback);
 
-  // 3. Background Firebase Real-Time Sync for Contact & Feedback
+  // 2. Background Firebase Real-Time Sync (Lightning Fast because it's just small text paths)
   if (window.db) {
+    window.dbOnValue(window.dbRef(window.db, 'spirit_works'), (snapshot) => {
+      const works = (snapshot.exists() && Array.isArray(snapshot.val())) ? snapshot.val() : [];
+      localStorage.setItem('spirit_works', JSON.stringify(works));
+      renderWorks(works);
+    });
+
     window.dbOnValue(window.dbRef(window.db, 'spirit_contact'), (snapshot) => {
       const contact = (snapshot.exists() && snapshot.val()) ? snapshot.val() : null;
       if (contact) {
@@ -168,11 +167,9 @@ function initApp() {
     });
 
     window.dbOnValue(window.dbRef(window.db, 'spirit_feedback'), (snapshot) => {
-      const feedback = (snapshot.exists() && Array.isArray(snapshot.val())) ? snapshot.val() : null;
-      if (feedback) {
-        localStorage.setItem('spirit_feedback', JSON.stringify(feedback));
-        renderFeedback(feedback);
-      }
+      const feedback = (snapshot.exists() && Array.isArray(snapshot.val())) ? snapshot.val() : [];
+      localStorage.setItem('spirit_feedback', JSON.stringify(feedback));
+      renderFeedback(feedback);
     });
   }
 }
@@ -194,7 +191,6 @@ function renderWorks(works) {
       </div>
     `).join('');
 
-    // Double the HTML for infinite seamless loop effect without stutter
     showreelTrack.innerHTML = cardHTML + cardHTML;
   }
 }
