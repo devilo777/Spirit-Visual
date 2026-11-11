@@ -1,3 +1,11 @@
+// --- DIRECT GITHUB PATH THUMBNAILS (ULTRA-FAST & ZERO LAG) ---
+const portfolioWorks = [
+  { title: "Thumbnail 1", image: "assets/images/works/thumb1.jpg" },
+  { title: "Thumbnail 2", image: "assets/images/works/thumb2.jpg" },
+  // Aap yahan apne aur bhi thumbnails ke naam add kar sakte hain:
+  // { title: "Thumbnail 3", image: "assets/images/works/thumb3.jpg" },
+];
+
 // --- OPTIMIZED SMOOTH PARTICLE BACKGROUND (LAG-FREE) ---
 document.addEventListener('DOMContentLoaded', () => {
   const canvases = document.querySelectorAll('#particle-canvas');
@@ -131,9 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Default Initial Data (Works set to empty array so only uploaded works show)
-const defaultWorks = [];
-
 const defaultContact = {
   whatsapp: "+919876543210",
   email: "spiritvisuals@gmail.com",
@@ -157,26 +162,18 @@ const defaultFeedback = [
 
 // --- INITIALIZE & INSTANT LOCAL SYNC ---
 function initApp() {
-  // 1. Instant local render (0-second delay)
-  const localWorks = JSON.parse(localStorage.getItem('spirit_works'));
-  renderWorks(localWorks && Array.isArray(localWorks) ? localWorks : defaultWorks);
+  // 1. Render Works directly from GitHub Array (Instant 0-delay load)
+  renderWorks(portfolioWorks);
 
+  // 2. Instant local render for contact & feedback
   const localContact = JSON.parse(localStorage.getItem('spirit_contact'));
   renderContact(localContact || defaultContact);
 
   const localFeedback = JSON.parse(localStorage.getItem('spirit_feedback'));
   renderFeedback(localFeedback && Array.isArray(localFeedback) ? localFeedback : defaultFeedback);
 
-  // 2. Background Firebase Real-Time Sync
+  // 3. Background Firebase Real-Time Sync for Contact & Feedback
   if (window.db) {
-    window.dbOnValue(window.dbRef(window.db, 'spirit_works'), (snapshot) => {
-      const works = (snapshot.exists() && Array.isArray(snapshot.val())) ? snapshot.val() : null;
-      if (works) {
-        localStorage.setItem('spirit_works', JSON.stringify(works));
-        renderWorks(works);
-      }
-    });
-
     window.dbOnValue(window.dbRef(window.db, 'spirit_contact'), (snapshot) => {
       const contact = (snapshot.exists() && snapshot.val()) ? snapshot.val() : null;
       if (contact) {
@@ -200,7 +197,7 @@ function renderWorks(works) {
   const showreelTrack = document.getElementById('showreel-track');
   if (showreelTrack) {
     if (!works || works.length === 0) {
-      showreelTrack.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 2rem;">No works uploaded yet. Add thumbnails via admin panel.</p>';
+      showreelTrack.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 2rem;">No works added yet.</p>';
       return;
     }
 
@@ -216,7 +213,6 @@ function renderWorks(works) {
     showreelTrack.innerHTML = cardHTML + cardHTML;
   }
 }
-
 
 function renderContact(contact) {
   const contactContainer = document.getElementById('contact-container');
