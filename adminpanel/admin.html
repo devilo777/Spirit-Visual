@@ -205,16 +205,10 @@
   </script>
 
   <script>
-    const defaultWorks = [
-      { title: "Cinematic Gaming Thumbnail", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1920&auto=format&fit=crop" },
-      { title: "Esports Championship Banner", image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1920&auto=format&fit=crop" },
-      { title: "Streamer Overlay Assets", image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920&auto=format&fit=crop" }
-    ];
+    // Default data set to empty arrays so no default items show up
+    const defaultWorks = [];
     const defaultContact = { whatsapp: "+919876543210", email: "spiritvisuals@gmail.com", discord: "spiritgfx#0001" };
-    const defaultFeedback = [
-      { client: "Top Gaming Creator", logo: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop", role: "2.4M+ Subscribers", text: "Spirit's thumbnails completely changed my channel's click-through rates. Absolute master of visual hierarchy!" },
-      { client: "Team Velocity", logo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop", role: "Esports Organization", text: "Working with Spirit for 4 years has been amazing. Professional, incredibly fast, and top-tier quality every time." }
-    ];
+    const defaultFeedback = [];
 
     function showToast(message) {
       const toast = document.getElementById('spirit-toast');
@@ -446,7 +440,8 @@
       }
       return JSON.parse(localStorage.getItem('spirit_feedback')) || defaultFeedback;
     }
-async function initAdmin() {
+
+    async function initAdmin() {
       if (window.db) {
         try {
           const contactSnap = await window.dbGet(window.dbRef(window.db, 'spirit_contact'));
@@ -469,26 +464,33 @@ async function initAdmin() {
         );
       }
     }
-
-    function renderAdminLists(works, feedback) {
+function renderAdminLists(works, feedback) {
       const worksList = document.getElementById('admin-works-list');
       if (worksList) {
-        worksList.innerHTML = works.map((w, index) => `
-          <div class="admin-item-row" style="display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0; border-bottom: 1px solid rgba(168,85,247,0.15);">
-            <span style="font-size: 0.9rem;"><strong>${w.title}</strong></span>
-            <button class="btn-danger" onclick="deleteWork(${index})" style="background:rgba(239,68,68,0.2); border:1px solid #ef4444; color:#ef4444; padding:0.3rem 0.7rem; border-radius:6px; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
-          </div>
-        `).join('');
+        if (!works || works.length === 0) {
+          worksList.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem; padding: 0.5rem 0;">No works added yet.</p>';
+        } else {
+          worksList.innerHTML = works.map((w, index) => `
+            <div class="admin-item-row" style="display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0; border-bottom: 1px solid rgba(168,85,247,0.15);">
+              <span style="font-size: 0.9rem;"><strong>${w.title}</strong></span>
+              <button class="btn-danger" onclick="deleteWork(${index})" style="background:rgba(239,68,68,0.2); border:1px solid #ef4444; color:#ef4444; padding:0.3rem 0.7rem; border-radius:6px; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          `).join('');
+        }
       }
 
       const feedbackList = document.getElementById('admin-feedback-list');
       if (feedbackList) {
-        feedbackList.innerHTML = feedback.map((f, index) => `
-          <div class="admin-item-row" style="display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0; border-bottom: 1px solid rgba(168,85,247,0.15);">
-            <span style="font-size: 0.9rem;"><strong>${f.client}</strong> - <span style="color:var(--accent-purple);">${f.role}</span></span>
-            <button class="btn-danger" onclick="deleteFeedback(${index})" style="background:rgba(239,68,68,0.2); border:1px solid #ef4444; color:#ef4444; padding:0.3rem 0.7rem; border-radius:6px; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
-          </div>
-        `).join('');
+        if (!feedback || feedback.length === 0) {
+          feedbackList.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem; padding: 0.5rem 0;">No feedback added yet.</p>';
+        } else {
+          feedbackList.innerHTML = feedback.map((f, index) => `
+            <div class="admin-item-row" style="display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0; border-bottom: 1px solid rgba(168,85,247,0.15);">
+              <span style="font-size: 0.9rem;"><strong>${f.client}</strong> - <span style="color:var(--accent-purple);">${f.role}</span></span>
+              <button class="btn-danger" onclick="deleteFeedback(${index})" style="background:rgba(239,68,68,0.2); border:1px solid #ef4444; color:#ef4444; padding:0.3rem 0.7rem; border-radius:6px; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          `).join('');
+        }
       }
     }
 
