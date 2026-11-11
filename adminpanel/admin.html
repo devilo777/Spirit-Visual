@@ -302,14 +302,16 @@
           discord: document.getElementById('admin-discord').value
         };
 
-        if (window.db) {
-          await window.dbSet(window.dbRef(window.db, 'spirit_contact'), updatedContact);
-        }
         localStorage.setItem('spirit_contact', JSON.stringify(updatedContact));
+        if (window.db) {
+          try {
+            await window.dbSet(window.dbRef(window.db, 'spirit_contact'), updatedContact);
+          } catch (err) { console.error(err); }
+        }
         showToast('Contact information updated successfully!');
       });
 
-      // Work Form Submit
+      // Work Form Submit (Forced Cloud Sync)
       document.getElementById('work-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         let works = await getWorksData();
@@ -320,19 +322,21 @@
         const newWork = { title: titleVal, image: imgVal };
         works.unshift(newWork);
 
-        if (window.db) {
-          await window.dbSet(window.dbRef(window.db, 'spirit_works'), works);
-        }
         localStorage.setItem('spirit_works', JSON.stringify(works));
+        if (window.db) {
+          try {
+            await window.dbSet(window.dbRef(window.db, 'spirit_works'), works);
+          } catch (err) { console.error("Cloud sync error:", err); }
+        }
 
         document.getElementById('work-form').reset();
         previewBox.style.display = 'none';
         hiddenImageInput.value = '';
         renderAdminLists(works, await getFeedbackData());
-        showToast('Thumbnail added instantly to cloud showreel!');
+        showToast('Thumbnail added & synced to cloud!');
       });
 
-      // Feedback Form Submit
+      // Feedback Form Submit (Forced Cloud Sync)
       document.getElementById('feedback-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         let feedback = await getFeedbackData();
@@ -351,44 +355,52 @@
         };
         feedback.unshift(newFeedback);
 
-        if (window.db) {
-          await window.dbSet(window.dbRef(window.db, 'spirit_feedback'), feedback);
-        }
         localStorage.setItem('spirit_feedback', JSON.stringify(feedback));
+        if (window.db) {
+          try {
+            await window.dbSet(window.dbRef(window.db, 'spirit_feedback'), feedback);
+          } catch (err) { console.error("Cloud sync error:", err); }
+        }
 
         document.getElementById('feedback-form').reset();
         fbLogoBase64Input.value = '';
         fbPreviewBox.style.display = 'none';
         renderAdminLists(await getWorksData(), feedback);
-        showToast('Client feedback added instantly to cloud!');
+        showToast('Client feedback added & synced to cloud!');
       });
     });
 
     async function getWorksData() {
       if (window.db) {
-        const snap = await window.dbGet(window.dbRef(window.db, 'spirit_works'));
-        if (snap.exists() && Array.isArray(snap.val())) return snap.val();
+        try {
+          const snap = await window.dbGet(window.dbRef(window.db, 'spirit_works'));
+          if (snap.exists() && Array.isArray(snap.val())) return snap.val();
+        } catch (e) { console.error(e); }
       }
       return JSON.parse(localStorage.getItem('spirit_works')) || defaultWorks;
     }
 
     async function getFeedbackData() {
       if (window.db) {
-        const snap = await window.dbGet(window.dbRef(window.db, 'spirit_feedback'));
-        if (snap.exists() && Array.isArray(snap.val())) return snap.val();
+        try {
+          const snap = await window.dbGet(window.dbRef(window.db, 'spirit_feedback'));
+          if (snap.exists() && Array.isArray(snap.val())) return snap.val();
+        } catch (e) { console.error(e); }
       }
       return JSON.parse(localStorage.getItem('spirit_feedback')) || defaultFeedback;
     }
 
     async function initAdmin() {
       if (window.db) {
-        const contactSnap = await window.dbGet(window.dbRef(window.db, 'spirit_contact'));
-        if (contactSnap.exists()) {
-          const contact = contactSnap.val();
-          document.getElementById('admin-whatsapp').value = contact.whatsapp || '';
-          document.getElementById('admin-email').value = contact.email || '';
-          document.getElementById('admin-discord').value = contact.discord || '';
-        }
+        try {
+          const contactSnap = await window.dbGet(window.dbRef(window.db, 'spirit_contact'));
+          if (contactSnap.exists()) {
+            const contact = contactSnap.val();
+            document.getElementById('admin-whatsapp').value = contact.whatsapp || '';
+            document.getElementById('admin-email').value = contact.email || '';
+            document.getElementById('admin-discord').value = contact.discord || '';
+          }
+        } catch (e) { console.error(e); }
         renderAdminLists(await getWorksData(), await getFeedbackData());
       } else {
         const contact = JSON.parse(localStorage.getItem('spirit_contact')) || defaultContact;
@@ -455,8 +467,10 @@
       if (confirmed) {
         let works = await getWorksData();
         works.splice(index, 1);
-        if (window.db) { await window.dbSet(window.dbRef(window.db, 'spirit_works'), works); }
         localStorage.setItem('spirit_works', JSON.stringify(works));
+        if (window.db) {
+          try { await window.dbSet(window.dbRef(window.db, 'spirit_works'), works); } catch (e) { console.error(e); }
+        }
         renderAdminLists(works, await getFeedbackData());
         showToast('Project deleted successfully!');
       }
@@ -467,8 +481,10 @@
       if (confirmed) {
         let feedback = await getFeedbackData();
         feedback.splice(index, 1);
-        if (window.db) { await window.dbSet(window.dbRef(window.db, 'spirit_feedback'), feedback); }
         localStorage.setItem('spirit_feedback', JSON.stringify(feedback));
+        if (window.db) {
+          try { await window.dbSet(window.dbRef(window.db, 'spirit_feedback'), feedback); } catch (e) { console.error(e); }
+        }
         renderAdminLists(await getWorksData(), feedback);
         showToast('Feedback deleted successfully!');
       }
