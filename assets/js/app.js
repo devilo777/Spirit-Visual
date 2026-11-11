@@ -131,12 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Default Initial Data
-const defaultWorks = [
-  { title: "Cinematic Gaming Thumbnail", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1920&auto=format&fit=crop" },
-  { title: "Esports Championship Banner", image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1920&auto=format&fit=crop" },
-  { title: "Streamer Overlay Assets", image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920&auto=format&fit=crop" }
-];
+// Default Initial Data (Works set to empty array so only uploaded works show)
+const defaultWorks = [];
 
 const defaultContact = {
   whatsapp: "+919876543210",
@@ -203,6 +199,11 @@ function initApp() {
 function renderWorks(works) {
   const showreelTrack = document.getElementById('showreel-track');
   if (showreelTrack) {
+    if (!works || works.length === 0) {
+      showreelTrack.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 2rem;">No works uploaded yet. Add thumbnails via admin panel.</p>';
+      return;
+    }
+
     const cardHTML = works.map(w => `
       <div class="glass-box work-card" onclick="openLightbox('${w.image}')" style="padding: 0; overflow: hidden;">
         <div class="work-img-wrapper" style="aspect-ratio: 16/9; width: 100%;">
