@@ -510,13 +510,21 @@
       const confirmed = await showCustomConfirm('Are you sure you want to delete this project?');
       if (confirmed) {
         let works = await getWorksData();
-        works.splice(index, 1);
-        localStorage.setItem('spirit_works', JSON.stringify(works));
-        if (window.db) {
-          try { await window.dbSet(window.dbRef(window.db, 'spirit_works'), works); } catch (e) { console.error(e); }
+        if (works && works.length > index) {
+          works.splice(index, 1);
+          localStorage.setItem('spirit_works', JSON.stringify(works));
+          if (window.db) {
+            try { 
+              await window.dbSet(window.dbRef(window.db, 'spirit_works'), works); 
+            } catch (e) { 
+              console.error("Cloud delete error:", e); 
+            }
+          }
+          renderAdminLists(works, await getFeedbackData());
+          showToast('Project deleted successfully!');
+        } else {
+          showToast('Error: Item not found.');
         }
-        renderAdminLists(works, await getFeedbackData());
-        showToast('Project deleted successfully!');
       }
     }
 
@@ -524,15 +532,24 @@
       const confirmed = await showCustomConfirm('Are you sure you want to delete this feedback?');
       if (confirmed) {
         let feedback = await getFeedbackData();
-        feedback.splice(index, 1);
-        localStorage.setItem('spirit_feedback', JSON.stringify(feedback));
-        if (window.db) {
-          try { await window.dbSet(window.dbRef(window.db, 'spirit_feedback'), feedback); } catch (e) { console.error(e); }
+        if (feedback && feedback.length > index) {
+          feedback.splice(index, 1);
+          localStorage.setItem('spirit_feedback', JSON.stringify(feedback));
+          if (window.db) {
+            try { 
+              await window.dbSet(window.dbRef(window.db, 'spirit_feedback'), feedback); 
+            } catch (e) { 
+              console.error("Cloud delete error:", e); 
+            }
+          }
+          renderAdminLists(await getWorksData(), feedback);
+          showToast('Feedback deleted successfully!');
+        } else {
+          showToast('Error: Item not found.');
         }
-        renderAdminLists(await getWorksData(), feedback);
-        showToast('Feedback deleted successfully!');
       }
-    }
+                                 }
+    
   </script>
 </body>
 </html>
