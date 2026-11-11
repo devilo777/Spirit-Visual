@@ -269,14 +269,18 @@ h1, h2, h3, h4, .brand-font {
 
 .showreel-track {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   width: max-content;
-  animation: scrollShowreel 35s linear infinite;
+  animation: scrollShowreel 30s linear infinite;
+  will-change: transform; /* GPU acceleration for smoothness */
+  transform: translateZ(0); /* Fixes lag on mobile */
 }
 
+/* Pause animation on touch/hover so user can view easily */
 .showreel-container:hover .showreel-track {
   animation-play-state: paused;
 }
+
 
 @keyframes scrollShowreel {
   0% { transform: translateX(0); }
