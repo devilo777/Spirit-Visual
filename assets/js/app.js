@@ -205,16 +205,18 @@ function renderWorks(works) {
     }
 
     const cardHTML = works.map(w => `
-      <div class="glass-box work-card" onclick="openLightbox('${w.image}')" style="padding: 0; overflow: hidden;">
+      <div class="glass-box work-card" onclick="openLightbox('${w.image}')" style="padding: 0; overflow: hidden; flex: 0 0 300px; transform: translateZ(0);">
         <div class="work-img-wrapper" style="aspect-ratio: 16/9; width: 100%;">
-          <img src="${w.image}" alt="${w.title || 'Work'}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920&auto=format&fit=crop'">
+          <img src="${w.image}" alt="${w.title || 'Work'}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920&auto=format&fit=crop'">
         </div>
       </div>
     `).join('');
 
+    // Double the HTML for infinite seamless loop effect without stutter
     showreelTrack.innerHTML = cardHTML + cardHTML;
   }
 }
+
 
 function renderContact(contact) {
   const contactContainer = document.getElementById('contact-container');
