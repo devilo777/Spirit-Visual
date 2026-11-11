@@ -1,9 +1,7 @@
 // --- DIRECT GITHUB PATH THUMBNAILS (ULTRA-FAST & ZERO LAG) ---
 const portfolioWorks = [
-  { title: "Thumbnail 1", image: "assets/images/works/thumb1.jpg" },
-  { title: "Thumbnail 2", image: "assets/images/works/thumb2.jpg" },
-  // Aap yahan apne aur bhi thumbnails ke naam add kar sakte hain:
-  // { title: "Thumbnail 3", image: "assets/images/works/thumb3.jpg" },
+  // Yahan apne GitHub wale thumbnails ke path add karte jayen:
+  // { title: "Thumbnail 1", image: "assets/images/works/thumb1.jpg" },
 ];
 
 // --- OPTIMIZED SMOOTH PARTICLE BACKGROUND (LAG-FREE) ---
@@ -145,20 +143,7 @@ const defaultContact = {
   discord: "spiritgfx#0001"
 };
 
-const defaultFeedback = [
-  {
-    client: "Top Gaming Creator",
-    logo: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop",
-    role: "2.4M+ Subscribers",
-    text: "Spirit's thumbnails completely changed my channel's click-through rates. Absolute master of visual hierarchy!"
-  },
-  {
-    client: "Team Velocity",
-    logo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop",
-    role: "Esports Organization",
-    text: "Working with Spirit for 4 years has been amazing. Professional, incredibly fast, and top-tier quality every time."
-  }
-];
+const defaultFeedback = [];
 
 // --- INITIALIZE & INSTANT LOCAL SYNC ---
 function initApp() {
@@ -204,7 +189,7 @@ function renderWorks(works) {
     const cardHTML = works.map(w => `
       <div class="glass-box work-card" onclick="openLightbox('${w.image}')" style="padding: 0; overflow: hidden; flex: 0 0 300px; transform: translateZ(0);">
         <div class="work-img-wrapper" style="aspect-ratio: 16/9; width: 100%;">
-          <img src="${w.image}" alt="${w.title || 'Work'}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920&auto=format&fit=crop'">
+          <img src="${w.image}" alt="${w.title || 'Work'}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
         </div>
       </div>
     `).join('');
@@ -246,11 +231,15 @@ function renderContact(contact) {
 function renderFeedback(feedback) {
   const feedbackGrid = document.getElementById('feedback-grid');
   if (feedbackGrid) {
+    if (!feedback || feedback.length === 0) {
+      feedbackGrid.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 2rem;">No feedback available yet.</p>';
+      return;
+    }
     feedbackGrid.innerHTML = feedback.map(f => `
       <div class="glass-box feedback-card">
         <p class="feedback-body">"${f.text}"</p>
         <div class="client-meta">
-          <img src="${f.logo}" alt="${f.client}" class="client-logo" onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop'">
+          <img src="${f.logo}" alt="${f.client}" class="client-logo">
           <div class="client-info">
             <h4>${f.client}</h4>
             <span>${f.role}</span>
