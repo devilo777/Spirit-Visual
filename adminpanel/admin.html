@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="admin.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* Circular Favicon & Toast Style */
     link[rel*="icon"] { border-radius: 50%; }
     #spirit-toast {
       position: fixed;
@@ -36,10 +35,8 @@
 </head>
 <body>
 
-  <!-- Custom Toast Notification -->
   <div id="spirit-toast">Action completed successfully!</div>
 
-  <!-- Authentication Login Overlay -->
   <div id="login-overlay" class="login-overlay">
     <div class="glass-box login-card">
       <h2>Admin Login</h2>
@@ -150,7 +147,6 @@
 
   </div>
 
-  <!-- Custom Dark Theme Confirm Modal -->
   <div id="custom-confirm-modal" class="lightbox-modal" style="display: none; align-items: center; justify-content: center;">
     <div class="glass-box" style="padding: 2rem; max-width: 380px; width: 90%; text-align: center; border: 1px solid rgba(168,85,247,0.3); background: rgba(3,2,6,0.95); box-shadow: 0 0 30px rgba(168,85,247,0.2);">
       <h3 style="margin-bottom: 0.8rem; font-size: 1.2rem; color: #fff;">Confirm Deletion</h3>
@@ -162,7 +158,6 @@
     </div>
   </div>
 
-  <!-- Firebase Realtime Database SDK Scripts -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -250,7 +245,7 @@
         });
       }
 
-      // Work Form Submit (GitHub Path Based - Fixed & Clean)
+      // Work Form Submit (GitHub Path + Firebase Sync)
       const workForm = document.getElementById('work-form');
       if (workForm) {
         workForm.addEventListener('submit', async (e) => {
@@ -277,7 +272,7 @@
 
             workForm.reset();
             renderAdminLists(works, await getFeedbackData());
-            showToast('Thumbnail added via path successfully!');
+            showToast('Thumbnail added & synced successfully!');
           } catch (err) {
             console.error("Error adding thumbnail:", err);
             showToast('Failed to add thumbnail.');
